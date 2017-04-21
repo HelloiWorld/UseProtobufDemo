@@ -3,7 +3,7 @@
 ## Require
 ![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/UseProtobufDemo/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
-### How to use
+## How to use
     Test_Req *req = [Test_Req new];
     req.param1 = @"0";
     req.param2 = 1;
@@ -88,3 +88,61 @@
     }];
     [task resume];
     }
+
+### Additional
+##### 例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，并分别处理
+    + (void)handleResponseAdditional:(NSData *)additionalData {
+    __block NSMutableData *mutableData = [NSMutableData dataWithData:additionalData];
+    while (additionalData.length > 12) {
+        NSData *sizeData = [mutableData subdataWithRange:NSMakeRange(4, 4)];
+        int i;
+        [sizeData getBytes: &i length: sizeof(i)];
+        i = htonl(i);
+        
+        NSData *cmdIdData = [mutableData subdataWithRange:NSMakeRange(8, 4)];
+        int j;
+        [cmdIdData getBytes: &j length: sizeof(j)];
+        j = htonl(j);
+        
+        // additional event command Id
+        if (j == CommandEnum_CmdDefault) {
+            
+        } else {
+            
+        }
+        
+        if ((int)mutableData.length-8-i > 0) {
+            [mutableData setData:[mutableData subdataWithRange:NSMakeRange(8+i, mutableData.length-8-i)]];
+        } else {
+            break;
+        }
+    }
+    }
+    
+    
+### PBParser
+    #import "NSObject+DataMerge.h" 
+    #import "NSObject+ProtobufExtension.h"
+    
+##### Set up model
+    Model *model = [[Model alloc] init];
+    [model setupWithObject:[Model instanceWithProtoObject:rsp]];
+    
+##### Map 
+    #pragma mark- Map
+    + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
+       return @{@"resultStr" : @"result1",
+                @"resultNum" : @"result2"};
+    }
+    
+    
+### Shell Command
+    #!/bin/bash
+    BASEDIR=$(dirname "$0")
+    cd "$BASEDIR"
+
+    # relative url
+    rm -rf ./Module\&Src/*.pbobjc.*
+
+    protoc -I=./Module\&Src --objc_out=./Module\&Src ./Module\&Src/*.proto
+   
