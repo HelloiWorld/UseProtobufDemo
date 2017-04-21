@@ -121,15 +121,15 @@
     
     
     
-### PBParser解析器
-    #import "NSObject+DataMerge.h" 
+### PBParser解析器 
+    #import "NSObject+DataMerge.h"
     #import "NSObject+ProtobufExtension.h"
     
 #### Set up model 
-    Model *model = [[Model alloc] init];
-    [model setupWithObject:[Model instanceWithProtoObject:rsp]];
+    Model *model = [[Model alloc] init]; 
+    [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-#### Map（字段名不一样匹配处理）   
+#### Map / Replace   
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
        return @{@"resultStr" : @"result1",
