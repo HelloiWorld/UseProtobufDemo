@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option java_package = "com.protobuf.message";
+option java_outer_classname = "EnumMessage";
+
+enum ResProtoType {
+	RES_DEFAULT = 0;
+	RES_EXP = 1;
+	RES_GOLD = 2;
+	RES_SILVER = 3;
+	RES_COPPER = 4;
+	RES_BLUE_GEM = 5;
+	RES_RED_GEM = 6;
+	RES_YELLOW_GEM = 7;
+	RES_JIFEN = 8;
+}
+
+enum LoginProtoType {
+	LOGIN_PHONE = 0;
+	LOGIN_WEIXIN = 1;
+	LOGIN_WEIBO = 2;
+	LOGIN_QQ = 3;
+}
+
+enum GuessProtoType {
+	GUESS_DEFAULT = 0;
+	//赛果竞猜
+	RESULT = 1;
+	//博奕竞猜
+	THEORY = 2;
+	//问答竞猜
+	QUESTION = 3;
+	//超级猜
+	SUPER = 4;
+}
+
+enum GuessPageProtoType {
+	GUESS_PAGE_COMMEND = 0;
+	GUESS_PAGE_SPORT = 1;
+	GUESS_PAGE_FOOTBALL = 11;
+	GUESS_PAGE_DISPORT = 2;
+	GUESS_PAGE_WORLD = 222;
+}

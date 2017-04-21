@@ -1,0 +1,161 @@
+syntax = "proto3";
+
+option java_package = "com.protobuf.message";
+option java_outer_classname = "ModuleMessage";
+
+import "enumMessage.proto";
+
+message Error_Rsp {
+	int32 error_code = 1;
+}
+
+message Empty_Req {
+
+}
+
+message Empty_Rsp {
+	BaseRspMessage base_rsp = 101;
+}
+
+message BaseRspMessage {
+	int32 level = 1;
+	// <ResProtoType, value>
+	map<int32, int32> res_map = 50;
+}
+
+message NotifyMessage {
+	
+}
+
+//---------------------message module-----------------------------------------------------------------
+message PlayerInfoMessage {
+	int64 player_id = 1;
+  	int64 session_id = 2;
+	string nickname = 3;
+	int64 phone_num = 4;
+	string head_path = 5;
+	int32 level = 6;
+	int32 exp = 7;
+	int32 gold = 8;
+	int32 silver = 9;
+	int32 copper = 10;
+	int32 blue_gem = 11;
+	int32 red_gem = 12;
+	int32 yellow_gem = 13;
+	int32 jifen = 14;
+	//是否主播
+	bool is_anchor = 15;
+	//是否水军
+	bool is_poster = 16;
+	//升级弹出状态
+	bool is_level_poped = 17;
+}
+
+message GuessInfoMessage {
+	int64 guess_id = 1;
+	//是否可竞猜
+	bool enable = 2;
+	//竞猜类型1,赛果,2博奕,3,问答,4,超级猜
+	GuessProtoType guess_type = 3;
+	//出答案截止剩余时间
+	int64 remain_time = 4;
+	//增长数随机种子
+	int64 random_seed = 5;
+	//增长数最后更新时间
+	int64 update_time = 6;
+	//所属栏目分类
+	string category_type = 7;
+	//累积积分券
+	int32 sum_jifen = 8;
+	//下一注需要的金币
+	int32 chip_gold = 9;
+	//超级猜已下注金币
+	int32 use_gold = 10;
+	
+	//超级猜会有多个，普通的只会有一个
+	repeated GuessDetailMessage details = 50;
+	//用户选择的答案
+	repeated PlayerAnswerMessage answers = 51;
+}
+
+message GuessDetailMessage {
+	//详细信息来自哪个guess id,超级猜的话 id会来自不同的guess
+	int64 detail_id = 1;
+	//标题
+	string title = 2;
+	//内容
+	string content = 3;
+	//正确答案序号 0表示未出答案,大于0则对应options里index序号
+	int32 answer_idx = 4;
+	
+	//竞猜选项信息
+	repeated GuessOptionMessage options = 50;
+
+	//-----------for client----------
+       // 对应某一题选中过的选项id
+	int32 selected_option_id = 500;
+}
+
+message GuessOptionMessage {
+	//选项索引
+	int32 index = 1;
+	//增长数
+	int32 increase_num = 2;
+	//参与者人数
+	int32 partaker_num = 3;
+	//选项内容文字
+	string option = 4;
+	//赛果竞猜预期收益
+	int32 expect_revenue = 5;
+}
+
+message PlayerAnswerMessage {
+	//对应detail message id
+	int64 detail_id = 1;
+	//用户选择的答案序号
+	int32 answer_idx = 2;
+	//在这个答案上花费的金币
+	int32 used_gold = 3;
+}
+
+message SettleDesMessage {
+	string title = 1;
+	string content = 2;
+	int32 win_jifen = 3;
+}
+
+message QuickGuessInfoMessage {
+	//quick guess id
+	int64 id = 1;
+	//标题
+	string content = 2;
+	//小图地址路径
+	string small_pic = 3;
+	//选项 格式为A|B|C
+	string options = 4;
+	//下注需要的金币
+	int32 chip_gold = 5;
+	//猜对的积分奖励
+	int32 jifen = 6;
+	
+	//用户选过答案以后以下字段才有值 
+	
+	//大图地址路径
+	string full_pic = 10;
+	//正确的答案索引未猜时为-1
+	int32 answer_idx = 11;
+	//用户选择的答案索引 未猜时为-1
+	int32 selected_idx = 12;
+}
+
+//-----------------dict------------------------
+
+message CategoryDict {
+	string type = 1;
+	string name = 2;
+	string logo_img = 3;
+	string live_img = 4;
+	string season = 5;
+	int64 update_time = 6;
+	int32 client_type = 7;
+}
