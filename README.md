@@ -138,8 +138,8 @@
     
     
 ### Shell Command
-#### 批量生成文件的一个小脚本
-    #!/bin/bash
+##### 批量生成文件的一个小脚本
+    #!/bin/bash
     BASEDIR=$(dirname "$0")
     cd "$BASEDIR"
 
