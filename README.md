@@ -120,13 +120,14 @@
     }
     
     
+    
 ### PBParser解析器
     #import "NSObject+DataMerge.h" 
     #import "NSObject+ProtobufExtension.h"
     
 #### Set up model 
     Model *model = [[Model alloc] init];
-    [model setupWithObject:[Model instanceWithProtoObject:rsp]];
+    [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
 #### Map（字段名不一样匹配处理）   
     #pragma mark- Map
