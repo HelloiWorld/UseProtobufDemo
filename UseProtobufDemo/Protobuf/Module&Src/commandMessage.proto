@@ -8,37 +8,5 @@ enum CommandEnum {
 	CMD_TEST = 1;
 	
    	CMD_ERROR = 100000;
-   	CMD_GET_DICT_INFOS = 100001;
-   	
-   	//---------------user---------------------
-   	//用户注册
-   	CMD_PLAYER_REGISTER = 101001;
-   	//用户登陆
-   	CMD_PLAYER_LOGIN = 101002;
-   	
-   	//----------------guess---------------------
-   	//获取今日场次数
-   	CMD_GET_CATEGORY_GUESS_COUNTS = 102001;
-   	//获取竞猜列表
-   	CMD_GET_GUESS_INFO_LIST = 102002;
-   	//获取非实时竞猜题目列表
-   	//CMD_GET_GUESS_PAGE_INFO_LIST = 102001;
-   	//竞猜下注
-   	CMD_DO_GUESS_BET = 102003;
-   	//结算已公布答案的竞猜
-   	CMD_DO_NORMAL_BET_SETTLE = 102004;
-   	//获取盈利明细
-   	CMD_GET_PROFIT_DETAIL = 102005;
-   	
-   	//------------------quick guess---------------------
-   	//获取快猜列表
-   	CMD_GET_QUICK_GUESS_LIST = 103001;
-   	//开始快猜
-   	CMD_BET_QUICK_GUESS = 103002;
-   	
-   	//--------------socket commond-----------------
-   	CMD_SYSTEM_LOGOUT = 99902001;
-   	CMD_HEART_BEAT = 99902002;
-   	
 }
 

@@ -30,14 +30,14 @@
 /**
  处理资源数据变化
  
- @param baseRsp
+ @param baseRsp 资源变化
  */
 + (void)handleBaseResponseChange:(BaseRspMessage*)baseRsp ;
 
 /**
-  返回数据不只一段时，处理额外的事件
+ 返回数据不只一段(即有拼接)时，处理额外的事件
 
- @param data
+ @param additionalData 附加数据
  */
 + (void)handleResponseAdditional:(NSData *)additionalData;
 

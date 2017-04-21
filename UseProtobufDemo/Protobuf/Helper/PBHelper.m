@@ -7,7 +7,6 @@
 //
 
 #import "PBHelper.h"
-#import "MBProgressHUD+MJ.h"
 
 @implementation PBHelper
 
@@ -16,15 +15,12 @@ static NSDictionary<NSString*,NSString*> *errorDic = nil;
 + (NSDictionary *)getErrorDic {
     static dispatch_once_t oneToTakeError;
     dispatch_once(&oneToTakeError, ^{
-        errorDic = @{   @"1": @"蓝宝石不足",  // ERROR_NOT_ENOUGH_BLUE_GEM
-                        @"2": @"金币不足",  // ERROR_NOT_ENOUGH_GOLD
+        errorDic = @{
                       @"101": @"昵称已存在",  // ERROR_NICKNAME_ALREADY_EXISTS
                       @"102": @"昵称包含敏感词汇",  // ERROR_NICKNAME_IS_SENSITIVE
                       @"103": @"会员不存在",  // ERROR_PLAYER_NOT_EXISTS
                       @"104": @"密码错误",  // ERROR_PASSWORD_WRONG
                       @"105": @"需要重新登录",  // ERROR_NEED_RELOGIN
-                      @"201": @"竞猜不存在",  // ERROR_GUESS_NOT_EXISTS
-                      @"202": @"下注时间已过"   // ERROR_GUESS_BET_STOPED
                     };
     });
     return errorDic;
@@ -35,25 +31,23 @@ static NSDictionary<NSString*,NSString*> *errorDic = nil;
     if (baseRsp.resMap_Count != 0) {
         [baseRsp.resMap enumerateKeysAndInt32sUsingBlock:^(int32_t key, int32_t value, BOOL * _Nonnull stop) {
             if (key == ResProtoType_ResExp) {
-                [DDUser sharedUser].exp = value;
+                
             } else if (key == ResProtoType_ResGold) {
-                [DDUser sharedUser].gold = value;
+                
             } else if (key == ResProtoType_ResSilver) {
-                [DDUser sharedUser].silver = value;
+                
             } else if (key == ResProtoType_ResCopper) {
-                [DDUser sharedUser].copper = value;
+                
             } else if (key == ResProtoType_ResBlueGem) {
-                [DDUser sharedUser].blueGem = value;
+                
             } else if (key == ResProtoType_ResRedGem) {
-                [DDUser sharedUser].redGem = value;
+                
             } else if (key == ResProtoType_ResYellowGem) {
-                [DDUser sharedUser].yellowGem = value;
+                
             } else if (key == ResProtoType_ResJifen) {
-                [DDUser sharedUser].jiFen = value;
+                
             }
         }];
-        [[DDUser sharedUser] saveToDisk];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateCurrencyAndGem object:nil];
     }
 }
 

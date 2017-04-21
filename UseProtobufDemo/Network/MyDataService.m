@@ -1,12 +1,14 @@
 //
 //  MyDataService.m
-//  01 NavigationTask
 //
 //  Created by pzk on 17-4-21.
-//  Copyright (c) 2014年 Aone. All rights reserved.
+//  Copyright (c) 2017年 Aone. All rights reserved.
 //
 
 #import "MyDataService.h"
+#import "PBHelper.h"
+
+NSString *const Protobuf_IP = @"http://1.1.1.1:8080";    // Ptotobuf
 
 @implementation MyDataService
 
@@ -31,10 +33,10 @@
 
 - (void)requestProtobufCommandId:(int)commandId
                           params:(NSData *)params
-                        playerId:(uint64_t)pId
-                       sessionId:(uint64_t)sId
+                        playerId:(uint64_t)playerID
+                       sessionId:(uint64_t)sessionID
                completionHandler:(void(^)(NSData *data))dataBlock
-                    errorHandler:(void(^)(int32_t errorCode))errorBlock{
+                    errorHandler:(void(^)(int32_t errorCode))errorBlock {
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -49,12 +51,12 @@
     str = htonl(str);
     [protobufData appendBytes:&str length:sizeof(str)];
     // playerId
-    uint64_t playerId = pId;
+    uint64_t playerId = playerID;
     playerId = htonll(playerId);
     NSData *playerIdData = [NSData dataWithBytes: &playerId length: sizeof(playerId)];
     [protobufData appendData:playerIdData];
     // sessionId
-    uint64_t sessionId = sId;
+    uint64_t sessionId = sessionID;
     sessionId = htonll(sessionId);
     NSData *sessionIdData = [NSData dataWithBytes: &sessionId length: sizeof(sessionId)];
     [protobufData appendData:sessionIdData];
@@ -77,10 +79,10 @@
 //    NSLog(@"byte: %@",byteString);
     
     //第一步，创建url
-    NSURL *url = [NSURL URLWithString:baseProUrl];
+    NSURL *url = [NSURL URLWithString:Protobuf_IP];
     //第二步，创建请求
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    [request setHTTPMethod:HTTPMethodPost];
+    [request setHTTPMethod:@"POST"];
     [request setHTTPBody:protobufData];
     //第三步，连接服务器
     NSURLSessionDataTask *task = [_manager dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
@@ -90,13 +92,16 @@
             NSLog(@"error = %@",error);
             dataBlock(nil);
         }else{
-            //            NSLog(@"protobuf data = %@", responseObject);
+//            NSLog(@"protobuf data = %@", responseObject);
             
             NSData *data = responseObject;
-            // 如果不需要考虑 错误 以及 有拼接 的情况，这里直接返回去除不需要信息的data就行
-            // 正常数据
-//            dataBlock([data subdataWithRange:NSMakeRange(12, data.length-12)]);
+            /**
+             *  这里数据有两种情况,可选附加信息一般为全局事件，如资源变更
+             *  正常+(附加)
+             *  错误+(附加)
+             */
             
+            // 如果不需要考虑 错误 以及 有拼接 的情况，这里直接返回正常信息的data就行
             if (data.length > 12) {
                 NSData *cmdIdData = [data subdataWithRange:NSMakeRange(8, 4)];
                 int j;
@@ -108,18 +113,13 @@
                 [sizeData getBytes: &i length: sizeof(i)];
                 i = htonl(i);
                 if (j == CommandEnum_CmdError) {
-                    // 提示错误信息
+                    // 拆分错误信息
                     NSData *errorData = [data subdataWithRange:NSMakeRange(12, 8+i-12)];
                     Error_Rsp *rsp = [Error_Rsp parseFromData:errorData error:nil];
-                    if (rsp.errorCode == 101 || rsp.errorCode == 102) {
-                        errorBlock(rsp.errorCode);
-                    } else {
-                        NSDictionary *dic = [PBHelper getErrorDic];
-                        NSString *desc = [dic objectForKey:[NSString stringWithFormat:@"%d",rsp.errorCode]];
-                        // 需要重新登录
-                        if (rsp.errorCode == 105) {
-                        }
-                    }
+                    errorBlock(rsp.errorCode);
+                    // 显示提示信息
+                    NSString *desc = [[PBHelper getErrorDic] objectForKey:[NSString stringWithFormat:@"%d",rsp.errorCode]];
+                    NSLog(@"%@",desc);
                 } else {
                     // 正常数据
                     dataBlock([data subdataWithRange:NSMakeRange(12, data.length-12)]);

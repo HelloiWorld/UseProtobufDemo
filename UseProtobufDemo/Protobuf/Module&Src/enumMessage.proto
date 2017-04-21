@@ -14,30 +14,3 @@ enum ResProtoType {
 	RES_YELLOW_GEM = 7;
 	RES_JIFEN = 8;
 }
-
-enum LoginProtoType {
-	LOGIN_PHONE = 0;
-	LOGIN_WEIXIN = 1;
-	LOGIN_WEIBO = 2;
-	LOGIN_QQ = 3;
-}
-
-enum GuessProtoType {
-	GUESS_DEFAULT = 0;
-	//赛果竞猜
-	RESULT = 1;
-	//博奕竞猜
-	THEORY = 2;
-	//问答竞猜
-	QUESTION = 3;
-	//超级猜
-	SUPER = 4;
-}
-
-enum GuessPageProtoType {
-	GUESS_PAGE_COMMEND = 0;
-	GUESS_PAGE_SPORT = 1;
-	GUESS_PAGE_FOOTBALL = 11;
-	GUESS_PAGE_DISPORT = 2;
-	GUESS_PAGE_WORLD = 222;
-}

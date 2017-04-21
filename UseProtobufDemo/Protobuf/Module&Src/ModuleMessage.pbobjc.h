@@ -60,6 +60,9 @@ typedef GPB_ENUM(Error_Rsp_FieldNumber) {
 
 #pragma mark - Empty_Req
 
+/**
+ *  Empty request, equal to Get
+ **/
 @interface Empty_Req : GPBMessage
 
 @end
@@ -85,6 +88,9 @@ typedef GPB_ENUM(BaseRspMessage_FieldNumber) {
   BaseRspMessage_FieldNumber_ResMap = 50,
 };
 
+/**
+ * Handle resource change
+ **/
 @interface BaseRspMessage : GPBMessage
 
 @property(nonatomic, readwrite) int32_t level;
