@@ -120,15 +120,15 @@
     }
     
     
-### PBParser
-    #import "NSObject+DataMerge.h" 
+### PBParser解析器
+    #import "NSObject+DataMerge.h" 
     #import "NSObject+ProtobufExtension.h"
     
-##### Set up model
-    Model *model = [[Model alloc] init];
+#### Set up model 
+    Model *model = [[Model alloc] init];
     [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-##### Map 
+#### Map（字段名不一样匹配处理）   
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
        return @{@"resultStr" : @"result1",
@@ -136,8 +136,10 @@
     }
     
     
+    
 ### Shell Command
-    #!/bin/bash
+#### 批量生成文件的一个小脚本
+    #!/bin/bash
     BASEDIR=$(dirname "$0")
     cd "$BASEDIR"
 
