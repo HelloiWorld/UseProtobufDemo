@@ -1,7 +1,7 @@
 # UseProtobufDemo
 
 ## Require
-![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/UseProtobufDemo/002If1Mfzy77mN5b9lR47%26690.jpeg)
+![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
 ## Http + Protobuf
     Test_Req *req = [Test_Req new];
