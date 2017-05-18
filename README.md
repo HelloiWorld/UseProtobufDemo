@@ -3,7 +3,7 @@
 ## Require
 ![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/UseProtobufDemo/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
-## How to use
+## Http + Protobuf
     Test_Req *req = [Test_Req new];
     req.param1 = @"0";
     req.param2 = 1;
@@ -16,6 +16,7 @@
         NSLog(@"errorCode: %d",errorCode);
     }];
     
+    // Http+Protobuf
     - (void)requestProtobufCommandId:(int)commandId
                           params:(NSData *)params
                         playerId:(uint64_t)playerID
@@ -56,12 +57,12 @@
     Byte *byte = (Byte *)[protobufData bytes];
     NSString *byteString = @"";
     for (int i=0 ; i<[protobufData length]; i++) {
-        [byteString stringByAppendingString:[NSString stringWithFormat:@"%c ",byte[i]]];
+        byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
     }
-    NSLog(@"byte: %@",byteString);
+    NSLog(@"byteString: %@",byteString);
     
     //第一步，创建url
-    NSURL *url = [NSURL URLWithString:@"1.1.1.1:8080"];
+    NSURL *url = [NSURL URLWithString:@"192.168.1.1:8080"];
     //第二步，创建请求
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     [request setHTTPMethod:@"POST"];
@@ -89,6 +90,48 @@
     [task resume];
     }
 
+### CocoaAsyncSocket + Protobuf
+    GCDAsyncSocket *gcdSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [gcdSocket connectToHost:@"192.168.1.1" onPort:8080 error:nil];
+    
+    //连接成功调用
+    - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
+        NSLog(@"连接成功,host:%@,port:%d",host,port);
+    }
+    
+    //收到消息的回调
+    - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+        NSLog(@"收到消息：%@",data);
+    }
+    
+    //发送数据流和协议号
+    - (void)sendProbufData:(NSData *)data
+             CommandId:(int)commandId {
+        NSMutableData *protobufData = [[NSMutableData alloc] init];
+        // 0XFF
+        int str = 0xff;
+        str = htonl(str);
+        [protobufData appendBytes:&str length:sizeof(str)];
+        // size
+        u_long size = data.length+4;
+        size = htonl(size);
+        [protobufData appendBytes:&size length:4];
+        // commandId
+        commandId = htonl(commandId);
+        NSData *commandIdData = [NSData dataWithBytes: &commandId length: sizeof(commandId)];
+        [protobufData appendData:commandIdData];
+        // data
+        [protobufData appendData:data];
+    
+        Byte *byte = (Byte *)[protobufData bytes];
+        NSString *byteString = @"";
+        for (int i=0 ; i<[protobufData length]; i++) {
+            byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
+        }
+        NSLog(@"byteString: %@",byteString);
+    
+        [gcdSocket writeData:protobufData withTimeout:-1 tag:0];
+    }
 ### Additional
 ##### 例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，并分别处理
     + (void)handleResponseAdditional:(NSData *)additionalData {
@@ -120,15 +163,16 @@
     }
     
     
-### PBParser
-    #import "NSObject+DataMerge.h" 
+    
+### PBParser解析器 
+    #import "NSObject+DataMerge.h"
     #import "NSObject+ProtobufExtension.h"
     
-##### Set up model
-    Model *model = [[Model alloc] init];
+##### Set up model 
+    Model *model = [[Model alloc] init]; 
     [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-##### Map 
+##### Map / Replace   
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
        return @{@"resultStr" : @"result1",
@@ -136,7 +180,9 @@
     }
     
     
+    
 ### Shell Command
+##### 批量生成文件的一个小脚本
     #!/bin/bash
     BASEDIR=$(dirname "$0")
     cd "$BASEDIR"
