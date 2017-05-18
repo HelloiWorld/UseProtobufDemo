@@ -27,7 +27,6 @@
 		9A0930791EA9B68E00B47D4D /* CommandMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930731EA9B68E00B47D4D /* CommandMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9A09307A1EA9B68E00B47D4D /* EnumMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930751EA9B68E00B47D4D /* EnumMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9A09307B1EA9B68E00B47D4D /* ModuleMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930771EA9B68E00B47D4D /* ModuleMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9A09307D1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A09307C1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg */; };
 		9A1C67821ECD84CA00FF57EF /* SocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C67811ECD84CA00FF57EF /* SocketManager.m */; };
 		DA24DAA492BB2C890EDC6BA0 /* libPods-UseProtobufDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD068CAF624757736D62067 /* libPods-UseProtobufDemo.a */; };
 /* End PBXBuildFile section */
@@ -69,7 +68,6 @@
 		9A0930751EA9B68E00B47D4D /* EnumMessage.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnumMessage.pbobjc.m; sourceTree = "<group>"; };
 		9A0930761EA9B68E00B47D4D /* ModuleMessage.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleMessage.pbobjc.h; sourceTree = "<group>"; };
 		9A0930771EA9B68E00B47D4D /* ModuleMessage.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleMessage.pbobjc.m; sourceTree = "<group>"; };
-		9A09307C1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "002If1Mfzy77mN5b9lR47&690.jpeg"; sourceTree = "<group>"; };
 		9A1C67801ECD84CA00FF57EF /* SocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketManager.h; sourceTree = "<group>"; };
 		9A1C67811ECD84CA00FF57EF /* SocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketManager.m; sourceTree = "<group>"; };
 		FCD068CAF624757736D62067 /* libPods-UseProtobufDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UseProtobufDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,7 +122,6 @@
 				9A09303C1EA9AA9800B47D4D /* AppDelegate.m */,
 				9A09303E1EA9AA9800B47D4D /* ViewController.h */,
 				9A09303F1EA9AA9800B47D4D /* ViewController.m */,
-				9A09307C1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg */,
 				9A0930411EA9AA9800B47D4D /* Main.storyboard */,
 				9A0930441EA9AA9800B47D4D /* Assets.xcassets */,
 				9A0930461EA9AA9800B47D4D /* LaunchScreen.storyboard */,
@@ -275,7 +272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A09306D1EA9B20100B47D4D /* commandMessage.proto in Resources */,
-				9A09307D1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg in Resources */,
 				9A0930481EA9AA9800B47D4D /* LaunchScreen.storyboard in Resources */,
 				9A0930451EA9AA9800B47D4D /* Assets.xcassets in Resources */,
 				9A09306F1EA9B20100B47D4D /* moduleMessage.proto in Resources */,
