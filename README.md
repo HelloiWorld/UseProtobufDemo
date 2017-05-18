@@ -3,7 +3,7 @@
 ## Require
 ![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/UseProtobufDemo/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
-## How to use
+## Http + Protobuf
     Test_Req *req = [Test_Req new];
     req.param1 = @"0";
     req.param2 = 1;
@@ -16,6 +16,7 @@
         NSLog(@"errorCode: %d",errorCode);
     }];
     
+    // Http+Protobuf
     - (void)requestProtobufCommandId:(int)commandId
                           params:(NSData *)params
                         playerId:(uint64_t)playerID
@@ -56,12 +57,12 @@
     Byte *byte = (Byte *)[protobufData bytes];
     NSString *byteString = @"";
     for (int i=0 ; i<[protobufData length]; i++) {
-        [byteString stringByAppendingString:[NSString stringWithFormat:@"%c ",byte[i]]];
+        byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
     }
-    NSLog(@"byte: %@",byteString);
+    NSLog(@"byteString: %@",byteString);
     
     //第一步，创建url
-    NSURL *url = [NSURL URLWithString:@"1.1.1.1:8080"];
+    NSURL *url = [NSURL URLWithString:@"192.168.1.1:8080"];
     //第二步，创建请求
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     [request setHTTPMethod:@"POST"];
@@ -88,6 +89,7 @@
     }];
     [task resume];
     }
+
 
 ### Additional
 ##### 例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，并分别处理
@@ -125,11 +127,11 @@
     #import "NSObject+DataMerge.h"
     #import "NSObject+ProtobufExtension.h"
     
-#### Set up model 
+##### Set up model 
     Model *model = [[Model alloc] init]; 
     [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-#### Map / Replace   
+##### Map / Replace   
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
        return @{@"resultStr" : @"result1",
