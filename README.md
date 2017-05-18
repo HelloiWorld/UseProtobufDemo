@@ -90,7 +90,48 @@
     [task resume];
     }
 
-
+### CocoaAsyncSocket + Protobuf
+    GCDAsyncSocket *gcdSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [gcdSocket connectToHost:@"192.168.1.1" onPort:8080 error:nil];
+    
+    //连接成功调用
+    - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
+        NSLog(@"连接成功,host:%@,port:%d",host,port);
+    }
+    
+    //收到消息的回调
+    - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+        NSLog(@"收到消息：%@",data);
+    }
+    
+    //发送数据流和协议号
+    - (void)sendProbufData:(NSData *)data
+             CommandId:(int)commandId {
+        NSMutableData *protobufData = [[NSMutableData alloc] init];
+        // 0XFF
+        int str = 0xff;
+        str = htonl(str);
+        [protobufData appendBytes:&str length:sizeof(str)];
+        // size
+        u_long size = data.length+4;
+        size = htonl(size);
+        [protobufData appendBytes:&size length:4];
+        // commandId
+        commandId = htonl(commandId);
+        NSData *commandIdData = [NSData dataWithBytes: &commandId length: sizeof(commandId)];
+        [protobufData appendData:commandIdData];
+        // data
+        [protobufData appendData:data];
+    
+        Byte *byte = (Byte *)[protobufData bytes];
+        NSString *byteString = @"";
+        for (int i=0 ; i<[protobufData length]; i++) {
+            byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
+        }
+        NSLog(@"byteString: %@",byteString);
+    
+        [gcdSocket writeData:protobufData withTimeout:-1 tag:0];
+    }
 ### Additional
 ##### 例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，并分别处理
     + (void)handleResponseAdditional:(NSData *)additionalData {
