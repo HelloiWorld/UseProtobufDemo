@@ -14,16 +14,21 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - CocoaAsyncSocket (7.5.1):
+    - CocoaAsyncSocket/GCD (= 7.5.1)
+  - CocoaAsyncSocket/GCD (7.5.1)
   - Protobuf (3.1.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - CocoaAsyncSocket (~> 7.5.1)
   - Protobuf (~> 3.1.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   Protobuf: 265e9977d04a83eba9cefb0bed3ad07e41033b4a
 
-PODFILE CHECKSUM: 60da041ff5b511dddc73768849f0bae3092bd5b5
+PODFILE CHECKSUM: 3e1c557538bfce80cf72973dc2f66fb2fa31af93
 
 COCOAPODS: 1.1.1

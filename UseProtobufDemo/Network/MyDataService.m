@@ -8,7 +8,7 @@
 #import "MyDataService.h"
 #import "PBHelper.h"
 
-NSString *const Protobuf_IP = @"http://1.1.1.1:8080";    // Ptotobuf
+NSString *const Protobuf_IP = @"http://192.168.1.1:8080";    // Ptotobuf
 
 @implementation MyDataService
 
@@ -37,8 +37,6 @@ NSString *const Protobuf_IP = @"http://1.1.1.1:8080";    // Ptotobuf
                        sessionId:(uint64_t)sessionID
                completionHandler:(void(^)(NSData *data))dataBlock
                     errorHandler:(void(^)(int32_t errorCode))errorBlock {
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     //  苹果 整数字节使用小端序传输，而其他都是网络端序大端序传输
     //  HTONS 转换端序，从小端序转为大端序，HTONL 转化4字节端序，HTONLL转化8字节端序。
@@ -74,10 +72,10 @@ NSString *const Protobuf_IP = @"http://1.1.1.1:8080";    // Ptotobuf
 //    Byte *byte = (Byte *)[protobufData bytes];
 //    NSString *byteString = @"";
 //    for (int i=0 ; i<[protobufData length]; i++) {
-//        [byteString stringByAppendingString:[NSString stringWithFormat:@"%c ",byte[i]]];
+//        byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
 //    }
 //    NSLog(@"byte: %@",byteString);
-    
+
     //第一步，创建url
     NSURL *url = [NSURL URLWithString:Protobuf_IP];
     //第二步，创建请求
@@ -86,8 +84,6 @@ NSString *const Protobuf_IP = @"http://1.1.1.1:8080";    // Ptotobuf
     [request setHTTPBody:protobufData];
     //第三步，连接服务器
     NSURLSessionDataTask *task = [_manager dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
         if (error){
             NSLog(@"error = %@",error);
             dataBlock(nil);

@@ -8,5 +8,9 @@ enum CommandEnum {
 	CMD_TEST = 1;
 	
    	CMD_ERROR = 100000;
+
+    //--------------socket commond-----------------
+    CMD_SYSTEM_LOGOUT = 99900001;
+    CMD_HEART_BEAT = 99900002;
 }
 

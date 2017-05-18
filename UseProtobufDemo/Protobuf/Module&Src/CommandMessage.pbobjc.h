@@ -41,6 +41,10 @@ typedef GPB_ENUM(CommandEnum) {
   CommandEnum_CmdDefault = 0,
   CommandEnum_CmdTest = 1,
   CommandEnum_CmdError = 100000,
+
+  /** --------------socket commond----------------- */
+  CommandEnum_CmdSystemLogout = 99900001,
+  CommandEnum_CmdHeartBeat = 99900002,
 };
 
 GPBEnumDescriptor *CommandEnum_EnumDescriptor(void);

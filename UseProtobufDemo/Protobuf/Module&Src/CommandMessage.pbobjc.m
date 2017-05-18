@@ -34,11 +34,14 @@ GPBEnumDescriptor *CommandEnum_EnumDescriptor(void) {
   static GPBEnumDescriptor *descriptor = NULL;
   if (!descriptor) {
     static const char *valueNames =
-        "CmdDefault\000CmdTest\000CmdError\000";
+        "CmdDefault\000CmdTest\000CmdError\000CmdSystemLog"
+        "out\000CmdHeartBeat\000";
     static const int32_t values[] = {
         CommandEnum_CmdDefault,
         CommandEnum_CmdTest,
         CommandEnum_CmdError,
+        CommandEnum_CmdSystemLogout,
+        CommandEnum_CmdHeartBeat,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(CommandEnum)
@@ -58,6 +61,8 @@ BOOL CommandEnum_IsValidValue(int32_t value__) {
     case CommandEnum_CmdDefault:
     case CommandEnum_CmdTest:
     case CommandEnum_CmdError:
+    case CommandEnum_CmdSystemLogout:
+    case CommandEnum_CmdHeartBeat:
       return YES;
     default:
       return NO;

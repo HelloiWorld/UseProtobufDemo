@@ -28,6 +28,7 @@
 		9A09307A1EA9B68E00B47D4D /* EnumMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930751EA9B68E00B47D4D /* EnumMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9A09307B1EA9B68E00B47D4D /* ModuleMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930771EA9B68E00B47D4D /* ModuleMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9A09307D1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A09307C1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg */; };
+		9A1C67821ECD84CA00FF57EF /* SocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C67811ECD84CA00FF57EF /* SocketManager.m */; };
 		DA24DAA492BB2C890EDC6BA0 /* libPods-UseProtobufDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD068CAF624757736D62067 /* libPods-UseProtobufDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,8 @@
 		9A0930761EA9B68E00B47D4D /* ModuleMessage.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleMessage.pbobjc.h; sourceTree = "<group>"; };
 		9A0930771EA9B68E00B47D4D /* ModuleMessage.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleMessage.pbobjc.m; sourceTree = "<group>"; };
 		9A09307C1EA9CD2400B47D4D /* 002If1Mfzy77mN5b9lR47&690.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "002If1Mfzy77mN5b9lR47&690.jpeg"; sourceTree = "<group>"; };
+		9A1C67801ECD84CA00FF57EF /* SocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketManager.h; sourceTree = "<group>"; };
+		9A1C67811ECD84CA00FF57EF /* SocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketManager.m; sourceTree = "<group>"; };
 		FCD068CAF624757736D62067 /* libPods-UseProtobufDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UseProtobufDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -114,8 +117,9 @@
 		9A0930371EA9AA9800B47D4D /* UseProtobufDemo */ = {
 			isa = PBXGroup;
 			children = (
-				9A0930551EA9B12E00B47D4D /* Network */,
 				9A0930521EA9B11100B47D4D /* Protobuf */,
+				9A0930551EA9B12E00B47D4D /* Network */,
+				9A1C677D1ECD822B00FF57EF /* Socket */,
 				9A09303B1EA9AA9800B47D4D /* AppDelegate.h */,
 				9A09303C1EA9AA9800B47D4D /* AppDelegate.m */,
 				9A09303E1EA9AA9800B47D4D /* ViewController.h */,
@@ -190,6 +194,15 @@
 				9A0930571EA9B12E00B47D4D /* MyDataService.m */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		9A1C677D1ECD822B00FF57EF /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				9A1C67801ECD84CA00FF57EF /* SocketManager.h */,
+				9A1C67811ECD84CA00FF57EF /* SocketManager.m */,
+			);
+			path = Socket;
 			sourceTree = "<group>";
 		};
 		D644A5B99DCCA6DCB28A62E8 /* Frameworks */ = {
@@ -327,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1C67821ECD84CA00FF57EF /* SocketManager.m in Sources */,
 				9A0930401EA9AA9800B47D4D /* ViewController.m in Sources */,
 				9A0930781EA9B68E00B47D4D /* AoneMessage.pbobjc.m in Sources */,
 				9A09307B1EA9B68E00B47D4D /* ModuleMessage.pbobjc.m in Sources */,

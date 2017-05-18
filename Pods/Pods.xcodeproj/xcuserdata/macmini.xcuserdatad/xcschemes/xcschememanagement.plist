@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CocoaAsyncSocket.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-UseProtobufDemo.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4D2B8BAC24D5690051AF520C59E4B5C2</key>
+		<key>233D1EE2E7A45B0CF6F76019537F9F9A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>23D7DA26C40DEA0CBB49A7825C7CD4F1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3B24DF69BA71BA03B58423CC79C031B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>9E033EDB5EC0819481B0546434FA577B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E2B18F6D0AEB1E0F9639E6CB2FC687AF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
