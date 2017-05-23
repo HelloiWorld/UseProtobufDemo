@@ -1,9 +1,10 @@
 # UseProtobufDemo
 
-## Require
+# Require
+这是约定的数据格式：
 ![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
-## Http + Protobuf
+## Http + AFNetworking 3.0 + Protobuf
     Test_Req *req = [Test_Req new];
     req.param1 = @"0";
     req.param2 = 1;
@@ -90,50 +91,47 @@
     [task resume];
     }
 
-### CocoaAsyncSocket + Protobuf
-    GCDAsyncSocket *gcdSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [gcdSocket connectToHost:@"192.168.1.1" onPort:8080 error:nil];
-    
+## CocoaAsyncSocket + TCP + Protobuf
+    //初始化socket并连接到服务端
+    - (void)initSocket {
+        GCDAsyncSocket *gcdSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    }
+
+    #pragma mark - 对外的一些接口
+    //建立连接
+    - (BOOL)connect {
+        return [gcdSocket connectToHost:@"192.168.1.1" onPort:8080 error:nil];
+    }
+
+    //断开连接
+    - (void)disConnect {
+        [gcdSocket disconnect];
+    }
+
+    #pragma mark - GCDAsyncSocketDelegate
     //连接成功调用
     - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
         NSLog(@"连接成功,host:%@,port:%d",host,port);
+        //监听读数据的代理  -1永远监听，不超时，但是只收一次消息，
+        //所以每次接受到消息还得调用一次
+        [gcdSocket readDataWithTimeout:-1 tag:0];
+        //心跳写在这...
+    }
+
+    //断开连接的时候调用
+    - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(nullable NSError *)err {
+        NSLog(@"断开连接,host:%@,port:%d",sock.localHost,sock.localPort);
+        //断线重连写在这...
+        if (err) {
+            //再次重连
+      } else {
+       //正常断开
+      }
     }
     
-    //收到消息的回调
-    - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
-        NSLog(@"收到消息：%@",data);
-    }
-    
-    //发送数据流和协议号
-    - (void)sendProbufData:(NSData *)data
-             CommandId:(int)commandId {
-        NSMutableData *protobufData = [[NSMutableData alloc] init];
-        // 0XFF
-        int str = 0xff;
-        str = htonl(str);
-        [protobufData appendBytes:&str length:sizeof(str)];
-        // size
-        u_long size = data.length+4;
-        size = htonl(size);
-        [protobufData appendBytes:&size length:4];
-        // commandId
-        commandId = htonl(commandId);
-        NSData *commandIdData = [NSData dataWithBytes: &commandId length: sizeof(commandId)];
-        [protobufData appendData:commandIdData];
-        // data
-        [protobufData appendData:data];
-    
-        Byte *byte = (Byte *)[protobufData bytes];
-        NSString *byteString = @"";
-        for (int i=0 ; i<[protobufData length]; i++) {
-            byteString = [byteString stringByAppendingString:[NSString stringWithFormat:@"%d ",byte[i]]];
-        }
-        NSLog(@"byteString: %@",byteString);
-    
-        [gcdSocket writeData:protobufData withTimeout:-1 tag:0];
-    }
-### Additional
-##### 例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，并分别处理
+## Additional
+例如游戏，有时一些额外的事件也会附加在正式协议数据后面传递过来，这时你需要根据数据长度将其分段，然后处理资源变化及全局事件
+
     + (void)handleResponseAdditional:(NSData *)additionalData {
     __block NSMutableData *mutableData = [NSMutableData dataWithData:additionalData];
     while (additionalData.length > 12) {
@@ -160,19 +158,22 @@
             break;
         }
     }
-    }
+    } 
     
     
-    
-### PBParser解析器 
-    #import "NSObject+DataMerge.h"
+## PBParser解析器
+类似JSON格式化工具，用于快速为本地model装载数据以及本地字段与后台不匹配的情况。
+
+    #import "NSObject+DataMerge.h"
     #import "NSObject+ProtobufExtension.h"
     
 ##### Set up model 
-    Model *model = [[Model alloc] init]; 
+
+    Model *model = [[Model alloc] init]; 
     [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-##### Map / Replace   
+##### Map / Replace 
+
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
        return @{@"resultStr" : @"result1",
@@ -180,10 +181,10 @@
     }
     
     
-    
-### Shell Command
-##### 批量生成文件的一个小脚本
-    #!/bin/bash
+## Shell Command
+##### 批量生成phobjc文件的一个小脚本，将Module&Src文件下的所有proto文件编译并输出
+
+    #!/bin/bash
     BASEDIR=$(dirname "$0")
     cd "$BASEDIR"
 
@@ -191,4 +192,4 @@
     rm -rf ./Module\&Src/*.pbobjc.*
 
     protoc -I=./Module\&Src --objc_out=./Module\&Src ./Module\&Src/*.proto
-   
+  
