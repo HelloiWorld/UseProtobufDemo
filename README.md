@@ -164,15 +164,15 @@
 ## PBParser解析器
 类似JSON格式化工具，用于快速为本地model装载数据以及本地字段与后台不匹配的情况。
 
-    #import "NSObject+DataMerge.h"
+    #import "NSObject+DataMerge.h"
     #import "NSObject+ProtobufExtension.h"
     
-##### Set up model 
-
-    Model *model = [[Model alloc] init]; 
+#### Set up model 
+    
+    Model *model = [[Model alloc] init]; 
     [model setupWithObject:[Model instanceWithProtoObject:rsp]];
     
-##### Map / Replace 
+#### Map / Replace 
 
     #pragma mark- Map
     + (NSDictionary *)replacedPropertyKeypathsForProtobuf {
@@ -182,10 +182,11 @@
     
     
 ## Shell Command
-##### 批量生成phobjc文件的一个小脚本，将Module&Src文件下的所有proto文件编译并输出
+批量生成phobjc文件的一个小脚本，将Module&Src文件下的所有proto文件编译并输出 
 
-    #!/bin/bash
-    BASEDIR=$(dirname "$0")
+    #!/bin/bash     
+    
+    BASEDIR=$(dirname "$0") 
     cd "$BASEDIR"
 
     # relative url
