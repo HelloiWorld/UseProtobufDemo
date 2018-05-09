@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+@class ResponseModel;
 
 @protocol SocketManagerDelegate <NSObject>
 
-- (void)receiveProtobufData:(NSData*)data;
+- (void)receiveProtobufData:(ResponseModel*)rspData;
 
 @end
 

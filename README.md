@@ -4,6 +4,10 @@
 这是约定的数据格式：
 ![](https://github.com/HelloiWorld/UseProtobufDemo/blob/master/002If1Mfzy77mN5b9lR47%26690.jpeg)
 
+### Before use
+后台设定的数据格式只是给予了一个参考，实际作为App使用时应酌情删减无用字段，更精简化传输。此外demo中还考虑了附加信息（一个接口返回对应数据之外可能还改变了资源，更新用户信息，亦或是比如游戏统计在线时长防沉迷等）的情况，如未按此设计直接忽略此过程即可。
+
+
 ## Http + AFNetworking 3.0 + Protobuf
     Test_Req *req = [Test_Req new];
     req.param1 = @"0";
@@ -181,7 +185,7 @@
     }
     
     
-## Shell Command
+# Shell Command
 批量生成phobjc文件的一个小脚本，将Module&Src文件下的所有proto文件编译并输出 
 
     #!/bin/bash     

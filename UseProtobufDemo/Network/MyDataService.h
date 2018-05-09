@@ -6,12 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking.h>
 
-extern NSString *const Protobuf_IP;
+/**
+ *  请求回调
+ *
+ *  @param data  服务端返回的protobuf data信息
+ *  @param error  错误信息
+ */
+typedef void (^RequestCallBackBlock) (NSData *data, NSError *error);
 
 @interface MyDataService : NSObject
-@property(nonatomic, strong)AFHTTPSessionManager *manager;
 
 //单例创建网络代理类
 + (MyDataService *)sharedService;

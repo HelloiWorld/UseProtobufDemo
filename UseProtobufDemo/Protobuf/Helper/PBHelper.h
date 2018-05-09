@@ -12,6 +12,7 @@
 #import "NSObject+ProtobufExtension.h"
 #import "NSObject+LogAllProperties.h"
 
+#import "ResponseModel.h"
 // pbobjc model
 #import "AoneMessage.pbobjc.h"
 #import "CommandMessage.pbobjc.h"
@@ -19,6 +20,8 @@
 #import "ModuleMessage.pbobjc.h"
 
 @interface PBHelper : NSObject
+
++ (ResponseModel *)parseResponseObject:(NSData *)data;
 
 /**
  错误码信息

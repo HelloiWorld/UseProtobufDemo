@@ -138,23 +138,14 @@ static const uint16_t kPort = 10002;
 //收到消息的回调
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
     NSLog(@"收到消息：%@",data);
-    if (data.length > 12) {
-        NSData *cmdIdData = [data subdataWithRange:NSMakeRange(8, 4)];
-        int j;
-        [cmdIdData getBytes: &j length: sizeof(j)];
-        j = htonl(j);
-        
-        NSData *sizeData = [data subdataWithRange:NSMakeRange(4, 4)];
-        int i;
-        [sizeData getBytes: &i length: sizeof(i)];
-        i = htonl(i);
-        if (j == CommandEnum_CmdHeartBeat) {
-            // 心跳包不做处理
-            NSLog(@"收到了心跳包!");
-        } else {
-            if ([self.delegate respondsToSelector:@selector(receiveProtobufData:)]) {
-                [self.delegate receiveProtobufData:data];
-            }
+    ResponseModel *rspModel = [PBHelper parseResponseObject:data];
+    if (rspModel.cmdId == CommandEnum_CmdHeartBeat) {
+        // 心跳包不做处理
+        NSLog(@"收到了心跳包!");
+    } else {
+        // 通知控制器处理数据
+        if ([self.delegate respondsToSelector:@selector(receiveProtobufData:)]) {
+            [self.delegate receiveProtobufData:rspModel];
         }
     }
     

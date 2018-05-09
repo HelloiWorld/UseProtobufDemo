@@ -6,14 +6,20 @@
 //
 
 #import "MyDataService.h"
+#import <AFNetworking.h>
 #import "PBHelper.h"
+#import "ResponseModel.h"
 
-NSString *const Protobuf_IP = @"http://192.168.1.1:8080";    // Ptotobuf
+static NSString *const Protobuf_IP = @"http://127.0.0.1:8080";    // Ptotobuf
+
+@interface MyDataService ()
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
+@end
 
 @implementation MyDataService
 
+static MyDataService *shareInstance = nil;
 + (MyDataService *)sharedService {
-    static MyDataService *shareInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shareInstance = [[MyDataService alloc] init];
@@ -21,11 +27,28 @@ NSString *const Protobuf_IP = @"http://192.168.1.1:8080";    // Ptotobuf
     return shareInstance;
 }
 
-- (id)init {
++ (id)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shareInstance = [super allocWithZone:zone];
+    });
+    return shareInstance;
+}
+
++ (id)copyWithZone:(struct _NSZone *)zone{
+    return shareInstance;
+}
+
+#pragma mark - Constructors
+- (instancetype)init{
     self = [super init];
     if (self) {
         _manager = [AFHTTPSessionManager manager];
-        _manager.operationQueue.maxConcurrentOperationCount = 4;
+//        NSURL *baseURL = [NSURL URLWithString: Protobuf_IP];
+//        NSURLSessionConfiguration *sessionCfg = [NSURLSessionConfiguration defaultSessionConfiguration];
+//        sessionCfg.timeoutIntervalForRequest = 8000;
+//        _manager = [[AFHTTPSessionManager alloc] initWithBaseURL: baseURL sessionConfiguration:sessionCfg];
+        _manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
     return self;
@@ -98,34 +121,21 @@ NSString *const Protobuf_IP = @"http://192.168.1.1:8080";    // Ptotobuf
              */
             
             // 如果不需要考虑 错误 以及 有拼接 的情况，这里直接返回正常信息的data就行
-            if (data.length > 12) {
-                NSData *cmdIdData = [data subdataWithRange:NSMakeRange(8, 4)];
-                int j;
-                [cmdIdData getBytes: &j length: sizeof(j)];
-                j = htonl(j);
-                
-                NSData *sizeData = [data subdataWithRange:NSMakeRange(4, 4)];
-                int i;
-                [sizeData getBytes: &i length: sizeof(i)];
-                i = htonl(i);
-                if (j == CommandEnum_CmdError) {
-                    // 拆分错误信息
-                    NSData *errorData = [data subdataWithRange:NSMakeRange(12, 8+i-12)];
-                    Error_Rsp *rsp = [Error_Rsp parseFromData:errorData error:nil];
-                    errorBlock(rsp.errorCode);
-                    // 显示提示信息
-                    NSString *desc = [[PBHelper getErrorDic] objectForKey:[NSString stringWithFormat:@"%d",rsp.errorCode]];
-                    NSLog(@"%@",desc);
-                } else {
-                    // 正常数据
-                    dataBlock([data subdataWithRange:NSMakeRange(12, data.length-12)]);
-                }
-                if ((int)data.length-8-i > 0) {
-                    // 附加信息
-                    [PBHelper handleResponseAdditional:[data subdataWithRange:NSMakeRange(8+i, data.length-8-i)]];
-                }
+            ResponseModel *rspModel = [PBHelper parseResponseObject:data];
+            if (rspModel.cmdId == CommandEnum_CmdError) {
+                Error_Rsp *rsp = [Error_Rsp parseFromData:rspModel.data error:nil];
+                errorBlock(rsp.errorCode);
+                // 显示提示信息
+                NSString *desc = [[PBHelper getErrorDic] objectForKey:[NSString stringWithFormat:@"%d",rsp.errorCode]];
+                NSLog(@"%@",desc);
             } else {
-                dataBlock(nil);
+                // 正常数据
+                dataBlock(rspModel.data);
+            }
+            // Optional method，you may handle additional info sometimes
+            if (data.length-8-rspModel.sizeLength > 0) {
+                // 处理附加信息
+                [PBHelper handleResponseAdditional:[data subdataWithRange:NSMakeRange(8+rspModel.sizeLength, data.length-8-rspModel.sizeLength)]];
             }
         }
     }];

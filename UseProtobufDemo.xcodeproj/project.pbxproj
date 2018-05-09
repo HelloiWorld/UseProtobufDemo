@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D14425E20A2CDFF000565B7 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D14425D20A2CDFF000565B7 /* ResponseModel.m */; };
 		9A09303A1EA9AA9800B47D4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0930391EA9AA9800B47D4D /* main.m */; };
 		9A09303D1EA9AA9800B47D4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A09303C1EA9AA9800B47D4D /* AppDelegate.m */; };
 		9A0930401EA9AA9800B47D4D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A09303F1EA9AA9800B47D4D /* ViewController.m */; };
@@ -32,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D14425C20A2CDFF000565B7 /* ResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseModel.h; sourceTree = "<group>"; };
+		3D14425D20A2CDFF000565B7 /* ResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseModel.m; sourceTree = "<group>"; };
 		5D1910B291A9DB3ABC23156D /* Pods-UseProtobufDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseProtobufDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-UseProtobufDemo/Pods-UseProtobufDemo.release.xcconfig"; sourceTree = "<group>"; };
 		63ED5028E8203B4A09D41CF3 /* Pods-UseProtobufDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseProtobufDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UseProtobufDemo/Pods-UseProtobufDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		9A0930351EA9AA9700B47D4D /* UseProtobufDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UseProtobufDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +192,8 @@
 			children = (
 				9A0930561EA9B12E00B47D4D /* MyDataService.h */,
 				9A0930571EA9B12E00B47D4D /* MyDataService.m */,
+				3D14425C20A2CDFF000565B7 /* ResponseModel.h */,
+				3D14425D20A2CDFF000565B7 /* ResponseModel.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -343,6 +348,7 @@
 				9A0930791EA9B68E00B47D4D /* CommandMessage.pbobjc.m in Sources */,
 				9A09307A1EA9B68E00B47D4D /* EnumMessage.pbobjc.m in Sources */,
 				9A09303D1EA9AA9800B47D4D /* AppDelegate.m in Sources */,
+				3D14425E20A2CDFF000565B7 /* ResponseModel.m in Sources */,
 				9A0930651EA9B18100B47D4D /* NSObject+ProtobufExtension.m in Sources */,
 				9A09303A1EA9AA9800B47D4D /* main.m in Sources */,
 				9A0930661EA9B18100B47D4D /* NSObject+DataMerge.m in Sources */,
